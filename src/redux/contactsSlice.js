@@ -1,21 +1,23 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const API_URL = 'https://connections-api.herokuapp.com';
-
-export const fetchUserContacts = createAsyncThunk(
-  'contacts/fetchUserContacts',
-  async (_, { getState }) => {
+export const fetchContacts = createAsyncThunk(
+  'contacts/fetchContacts',
+  async () => {
     try {
-      const { token } = getState().auth;
-      const response = await axios.get(`${API_URL}/contacts`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const token = localStorage.getItem('token');
+      const response = await axios.get(
+        'https://connections-api.herokuapp.com/contacts',
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(response.data);
       return response.data;
     } catch (error) {
-      throw error;
+      throw Error('Failed to fetch contacts');
     }
   }
 );
@@ -24,22 +26,60 @@ export const addContactAsync = createAsyncThunk(
   'contacts/addContactAsync',
   async newContact => {
     try {
-      const response = await axios.post(`${API_URL}/contacts`, newContact);
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/contacts',
+        newContact,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      throw error;
+      throw Error('Failed to add contact');
     }
   }
 );
-
+export const logoutAsync = createAsyncThunk(
+  'users/logoutAsync',
+  async (_, thunkAPI) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.post(
+        'https://connections-api.herokuapp.com/users/logout',
+        null, // Nie ma potrzeby wysyłania danych w ciele żądania
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data;     
+    } catch (error) {
+      throw Error(`Failed to connect API and logout > ${error}`);
+    }
+  }
+);
 export const deleteContactAsync = createAsyncThunk(
   'contacts/deleteContactAsync',
   async id => {
     try {
-      await axios.delete(`${API_URL}/contacts/${id}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(
+        `https://connections-api.herokuapp.com/contacts/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return id;
     } catch (error) {
-      throw error;
+      throw Error('Failed to delete contact');
     }
   }
 );
@@ -51,22 +91,32 @@ const contactsSlice = createSlice({
     status: 'idle',
     error: null,
     filter: '',
+    user: null,
   },
   reducers: {
     setFilter: (state, action) => {
       state.filter = action.payload;
     },
+    setUser: (state, action) => {
+      state.user = action.payload;
+    },
+    clearContacts: (state) => {
+      state.items = [];
+      state.status = 'idle';
+      state.error = null;
+      state.user = null;  // Clear user data
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchUserContacts.pending, state => {
+      .addCase(fetchContacts.pending, state => {
         state.status = 'loading';
       })
-      .addCase(fetchUserContacts.fulfilled, (state, action) => {
+      .addCase(fetchContacts.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.items = action.payload;
       })
-      .addCase(fetchUserContacts.rejected, (state, action) => {
+      .addCase(fetchContacts.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message;
       })
@@ -81,13 +131,17 @@ const contactsSlice = createSlice({
   },
 });
 
-export const { setFilter } = contactsSlice.actions;
+export const { setFilter, setUser, clearContacts } = contactsSlice.actions;
 
 export const contactsActions = {
-  fetchUserContacts,
+  fetchContacts,
   addContactAsync,
   deleteContactAsync,
+  logoutAsync,
   setFilter,
+  setUser,
+  clearContacts, // Dodajemy akcję clearContacts
 };
+
 
 export default contactsSlice.reducer;

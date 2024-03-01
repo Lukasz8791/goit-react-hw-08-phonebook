@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { contactsActions } from '../../redux/contactsSlice';
 import { nanoid } from 'nanoid';
 import styles from './ContactForm.module.css';
+import Navigation from 'components/Navigation';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -10,28 +11,28 @@ const ContactForm = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
+    number: '',
     nameError: '',
-    phoneError: '',
+    numberError: '',
   });
 
-  const { name, phone, nameError, phoneError } = formData;
+  const { name, number, nameError, numberError } = formData;
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const phoneRegExp = /^\+?[0-9\s()-]{7,}$/;
+    const numberRegExp = /^\+?[0-9\s()-]{7,}$/;
 
-    if (!phoneRegExp.test(phone)) {
+    if (!numberRegExp.test(number)) {
       setFormData({
         ...formData,
-        phoneError: 'Insert correct number',
+        numberError: 'Insert correct number',
       });
       return;
     }
 
     const existingContactWithNumber = contacts.find(
-      contact => contact.phone === phone
+      contact => contact.number === number
     );
 
     if (existingContactWithNumber) {
@@ -55,22 +56,28 @@ const ContactForm = () => {
       return;
     }
 
-    const newContact = {
-      id: nanoid(),
-      name: name,
-      phone: phone,
-    };
-
-    dispatch(contactsActions.addContactAsync(newContact));
-    setFormData({
-      name: '',
-      phone: '',
-      nameError: '',
-      phoneError: '',
-    });
+    try {
+      const token = localStorage.getItem('token');  
+ 
+        const data = JSON.stringify({
+          name: name,
+          number: number,
+        });
+        dispatch(contactsActions.addContactAsync( data));
+        setFormData({
+          name: '',
+          number: '',
+          nameError: '',
+          numberError: '',
+        });
+    } catch (error) {
+      console.error('Błąd dodawania kontaktu:', error.message);
+    }
   };
 
   return (
+    <div>
+      
     <form className={styles.form} onSubmit={handleSubmit}>
       <label>
         <span>Name:</span>
@@ -88,27 +95,27 @@ const ContactForm = () => {
         {nameError && <p className={styles['error-message']}>{nameError}</p>}
       </label>
       <label>
-        <span>Phone:</span>
+        <span>Phone number:</span>
         <input
           className={styles.input}
           type="tel"
-          name="phone"
+          name="number"
           required
-          value={phone}
+          value={number}
           onChange={e => {
             setFormData({
               ...formData,
-              phone: e.target.value,
-              phoneError: '',
+              number: e.target.value,
+              numberError: '',
             });
           }}
         />
-        {phoneError && <p className={styles['error-message']}>{phoneError}</p>}
+        {numberError && <p className={styles['error-message']}>{numberError}</p>}
       </label>
       <button className={styles.button} type="submit">
         Add Contact
       </button>
-    </form>
+    </form></div>
   );
 };
 

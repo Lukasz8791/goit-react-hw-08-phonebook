@@ -1,8 +1,11 @@
+// ContactList.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ContactList.module.css';
 
 const ContactList = ({ contacts, filter, onDelete }) => {
+  // console.log('Aktualna wartość filtra w ContactList:', filter); // Dodaj log
+
   const filteredContacts =
     filter &&
     contacts &&
@@ -11,7 +14,7 @@ const ContactList = ({ contacts, filter, onDelete }) => {
         contact &&
         contact.name &&
         contact.name.toLowerCase().includes(filter.toLowerCase()) &&
-        contact.phone
+        contact.number
     );
 
   const displayedContacts = filter ? filteredContacts : contacts;
@@ -21,7 +24,7 @@ const ContactList = ({ contacts, filter, onDelete }) => {
       {displayedContacts &&
         displayedContacts.map(contact => (
           <li key={contact.id} className={styles.li}>
-            {contact && contact.name} - {contact && contact.phone}
+            {contact && contact.name} - {contact && contact.number}
             <button
               type="button"
               className={styles['delete-button']}

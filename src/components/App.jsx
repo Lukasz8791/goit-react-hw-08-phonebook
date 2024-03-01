@@ -1,13 +1,10 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom'; // Importujemy BrowserRouter z aliasem Router
 import { contactsActions } from '../redux/contactsSlice';
+import Navigation from './Navigation';  // Dodany import modułu Navigation
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
-import Navigation from './Navigation/Navigation';
-import Register from './Register/Register';
-import Login from './Login/Login';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,30 +43,21 @@ const App = () => {
   };
 
   return (
-    <Router>
-      {' '}
-      <div>
-        <Navigation />
-        <Route path="/register" component={Register} />
-        <Route path="/login" component={Login} />
-        <Route path="/contacts">
-          <div>
-            <h1>Phonebook</h1>
-            <ContactForm addContact={handleAddContact} />
-            <h2>Contacts</h2>
-            <Filter
-              filter={filter}
-              setFilter={value => dispatch(contactsActions.setFilter(value))}
-            />
-            <ContactList
-              contacts={contacts}
-              filter={filter}
-              onDelete={handleDeleteContact}
-            />
-          </div>
-        </Route>
-      </div>
-    </Router>
+    <div>
+      <Navigation /> 
+      <h1>Phonebook</h1>
+      <ContactForm addContact={handleAddContact} />
+      <h2>Contacts</h2>
+      <Filter
+        filter={filter}
+        setFilter={value => dispatch(contactsActions.setFilter(value))}
+      />
+      <ContactList
+        contacts={contacts}
+        filter={filter}
+        onDelete={handleDeleteContact}
+      />
+    </div>
   );
 };
 
