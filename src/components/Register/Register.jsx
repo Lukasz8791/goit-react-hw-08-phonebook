@@ -37,11 +37,11 @@ const Register = () => {
       if (response.ok) {
         navigate('/login');
       } else {
-        const errorMessage = await response.text();
-        setError(`Registers error: ${errorMessage}`);
+        var errorMessage = await response.json();
+        setError(`Registers error: ${errorMessage.message}`);
       }
     } catch (error) {
-      setError(`Registers error: ${error.message}`);
+      setError(`Registers error: ${error}`);
     }
   };
 
@@ -55,7 +55,8 @@ const Register = () => {
     <div>
       <Navigation />
       <h2 className={styles.title}>Register</h2>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
+
       <form onSubmit={handleSubmit}>
         <label>
           User name:

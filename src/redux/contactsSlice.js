@@ -6,16 +6,18 @@ export const fetchContacts = createAsyncThunk(
   async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(
-        'https://connections-api.herokuapp.com/contacts',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      if (token != null && token.length > 0) {
+        const response = await axios.get(
+          'https://connections-api.herokuapp.com/contacts',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      return response.data;
+        return response.data;
+      } else return null;
     } catch (error) {
       throw Error('Failed to fetch contacts');
     }
@@ -69,6 +71,7 @@ export const deleteContactAsync = createAsyncThunk(
   async id => {
     try {
       const token = localStorage.getItem('token');
+
       await axios.delete(
         `https://connections-api.herokuapp.com/contacts/${id}`,
         {

@@ -35,14 +35,16 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Token:', data.token);
+
         localStorage.setItem('token', data.token);
         navigate('/contacts');
       } else {
+        console.log(response);
         const errorMessage = await response.text();
         setError(`Error: ${errorMessage}`);
       }
     } catch (error) {
+      console.log(`err ${error}`);
       setError(`Error: ${error.message}`);
     }
   };

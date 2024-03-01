@@ -6,6 +6,7 @@ import styles from './ContactForm.module.css';
 const ContactForm = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(state => state.contacts.items);
+  const [generalError, setGeneralError] = useState('');
 
   const [formData, setFormData] = useState({
     name: '',
@@ -18,6 +19,7 @@ const ContactForm = () => {
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setGeneralError('');
 
     const numberRegExp = /^\+?[0-9\s()-]{7,}$/;
 
@@ -28,38 +30,38 @@ const ContactForm = () => {
       });
       return;
     }
-
-    const existingContactWithNumber = contacts.find(
-      contact => contact.number === number
-    );
-
-    if (existingContactWithNumber) {
-      setFormData({
-        ...formData,
-        nameError: `This number is assigned to the contact ${existingContactWithNumber.name}`,
-      });
-      return;
-    }
-
-    const isNameAlreadyExists = contacts.some(
-      contact =>
-        contact.name && contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    if (isNameAlreadyExists) {
-      setFormData({
-        ...formData,
-        nameError: 'Contact with this name already exists',
-      });
-      return;
-    }
-
     try {
+      const existingContactWithNumber = contacts.find(
+        contact => contact.number === number
+      );
+
+      if (existingContactWithNumber) {
+        setFormData({
+          ...formData,
+          nameError: `This number is assigned to the contact ${existingContactWithNumber.name}`,
+        });
+        return;
+      }
+
+      const isNameAlreadyExists = contacts.some(
+        contact =>
+          contact.name && contact.name.toLowerCase() === name.toLowerCase()
+      );
+
+      if (isNameAlreadyExists) {
+        setFormData({
+          ...formData,
+          nameError: 'Contact with this name already exists',
+        });
+        return;
+      }
+
       const data = JSON.stringify({
         name: name,
         number: number,
       });
       dispatch(contactsActions.addContactAsync(data));
+
       setFormData({
         name: '',
         number: '',
@@ -67,12 +69,17 @@ const ContactForm = () => {
         numberError: '',
       });
     } catch (error) {
-      console.error('Error during adding contacts:', error.message);
+      setGeneralError(
+        'Error during adding contacts, Please check if you are log in or try again later.'
+      );
     }
   };
 
   return (
     <div>
+      {generalError && (
+        <p className={styles['error-message']}>{generalError}</p>
+      )}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
           <span>Name: </span>

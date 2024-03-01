@@ -55,3 +55,7 @@ button {
 button:hover {
   background: linear-gradient(to right, #0056b3, #007bff);
 }
+.error-message {
+  color: red;
+  font-weight: bold;
+}

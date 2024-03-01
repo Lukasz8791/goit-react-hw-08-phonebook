@@ -14,15 +14,18 @@ const UserMenu = () => {
     const fetchUser = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(
-          'https://connections-api.herokuapp.com/users/current',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        dispatch(contactsActions.setUser(response.data));
+
+        if (token != null && token.length > 0) {
+          const response = await axios.get(
+            'https://connections-api.herokuapp.com/users/current',
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          dispatch(contactsActions.setUser(response.data));
+        }
       } catch (error) {
         console.error('Error during fetching user data:', error.message);
       }
@@ -37,6 +40,7 @@ const UserMenu = () => {
     try {
       await dispatch(contactsActions.logoutAsync());
       dispatch(contactsActions.clearContacts());
+      localStorage.removeItem('token');
       navigate('/login');
     } catch (error) {
       console.error('Error during logout:', error.message);

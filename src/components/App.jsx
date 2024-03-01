@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactsActions } from '../redux/contactsSlice';
 import Navigation from './Navigation/Navigation';
@@ -11,28 +11,9 @@ const App = () => {
   const contacts = useSelector(state => state.contacts.items);
   const filter = useSelector(state => state.contacts.filter);
 
-  const handleBeforeUnload = useCallback(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
   useEffect(() => {
-    const storedContacts = localStorage.getItem('contacts');
-    if (storedContacts) {
-      dispatch(contactsActions.fetchContacts(JSON.parse(storedContacts)));
-    } else {
-      dispatch(contactsActions.fetchContacts());
-    }
+    dispatch(contactsActions.fetchContacts());
   }, [dispatch]);
-
-  useEffect(() => {
-    const handleUnload = () => handleBeforeUnload();
-
-    window.addEventListener('beforeunload', handleUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleUnload);
-    };
-  }, [handleBeforeUnload]);
 
   const handleAddContact = newContact => {
     dispatch(contactsActions.addContactAsync(newContact));
