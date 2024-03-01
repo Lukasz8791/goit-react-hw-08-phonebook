@@ -8,7 +8,7 @@ const Filter = () => {
 
   const handleFilterChange = e => {
     const newFilterValue = e.target.value;
-    // console.log('Nowa wartość filtra:', newFilterValue); // Dodaj log
+
     dispatch(contactsActions.setFilter(newFilterValue));
   };
 

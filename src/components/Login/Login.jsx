@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Navigation from './Navigation'; 
+import Navigation from '../Navigation/Navigation';
+import styles from './Login.module.css';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  
+
   const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -21,41 +22,45 @@ const Login = () => {
 
   const loginUser = async () => {
     try {
-      const response = await fetch('https://connections-api.herokuapp.com/users/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        'https://connections-api.herokuapp.com/users/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
-      console.log('Token:', data.token); // Wyświetlenie tokenu w konsoli
-      localStorage.setItem('token', data.token);
+        console.log('Token:', data.token);
+        localStorage.setItem('token', data.token);
         navigate('/contacts');
       } else {
         const errorMessage = await response.text();
-        setError(`Błąd logowania: ${errorMessage}`);
+        setError(`Error: ${errorMessage}`);
       }
     } catch (error) {
-      setError(`Błąd logowania: ${error.message}`);
+      setError(`Error: ${error.message}`);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    setError(''); 
+    setError('');
     loginUser();
   };
 
   return (
     <div>
-        <Navigation /> 
-      <h2>Logowanie</h2>
+      <Navigation />
+      <h2>Log in</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <label>Email:
+        <label>
+          Email:
           <input
             type="email"
             name="email"
@@ -64,7 +69,8 @@ const Login = () => {
           />
         </label>
         <br />
-        <label>Hasło:
+        <label>
+          Password:
           <input
             type="password"
             name="password"
@@ -73,7 +79,7 @@ const Login = () => {
           />
         </label>
         <br />
-        <button type="submit">Zaloguj się</button>
+        <button type="submit">Log in</button>
       </form>
     </div>
   );

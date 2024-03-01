@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import Navigation from './Navigation'; 
+import Navigation from '../Navigation/Navigation';
+import styles from './Contacts.module.css';
 
 const Contacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -12,11 +13,14 @@ const Contacts = () => {
     const fetchContacts = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('https://connections-api.herokuapp.com/contacts', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          'https://connections-api.herokuapp.com/contacts',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (response.ok) {
           const data = await response.json();
           setContacts(data);
@@ -29,9 +33,9 @@ const Contacts = () => {
     };
 
     fetchContacts();
-  }, []); 
+  }, []);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = e => {
     setNewContact({
       ...newContact,
       [e.target.name]: e.target.value,
@@ -41,14 +45,17 @@ const Contacts = () => {
   const handleAddContact = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://connections-api.herokuapp.com/contacts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(newContact),
-      });
+      const response = await fetch(
+        'https://connections-api.herokuapp.com/contacts',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(newContact),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -65,18 +72,21 @@ const Contacts = () => {
     }
   };
 
-  const handleDeleteContact = async (id) => {
+  const handleDeleteContact = async id => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://connections-api.herokuapp.com/contacts/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://connections-api.herokuapp.com/contacts/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (response.ok) {
-        setContacts(contacts.filter((contact) => contact.id !== id));
+        setContacts(contacts.filter(contact => contact.id !== id));
       } else {
         console.error('Błąd usuwania kontaktu:', response.statusText);
       }
@@ -87,12 +97,14 @@ const Contacts = () => {
 
   return (
     <div>
-      <Navigation /> 
+      <Navigation />
       <h2>Kontakty</h2>
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        handleAddContact();
-      }}>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          handleAddContact();
+        }}
+      >
         <label>
           Imię i nazwisko:
           <input
@@ -116,10 +128,12 @@ const Contacts = () => {
         <button type="submit">Dodaj kontakt</button>
       </form>
       <ul>
-        {contacts.map((contact) => (
+        {contacts.map(contact => (
           <li key={contact.id}>
             <strong>{contact.name}</strong> - {contact.number}
-            <button onClick={() => handleDeleteContact(contact.id)}>Usuń</button>
+            <button onClick={() => handleDeleteContact(contact.id)}>
+              Usuń
+            </button>
           </li>
         ))}
       </ul>

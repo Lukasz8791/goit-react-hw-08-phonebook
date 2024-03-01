@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import styles from './Register.module.css';
 import { useNavigate } from 'react-router-dom';
-import Navigation from './Navigation'; 
+import Navigation from '../Navigation/Navigation';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ const Register = () => {
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -22,38 +23,42 @@ const Register = () => {
 
   const registerUser = async () => {
     try {
-      const response = await fetch('https://connections-api.herokuapp.com/users/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        'https://connections-api.herokuapp.com/users/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         navigate('/login');
       } else {
         const errorMessage = await response.text();
-        setError(`Błąd rejestracji: ${errorMessage}`);
+        setError(`Registers error: ${errorMessage}`);
       }
     } catch (error) {
-      setError(`Błąd rejestracji: ${error.message}`);
+      setError(`Registers error: ${error.message}`);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    setError(''); // Wyczyść poprzedni błąd przed kolejną próbą rejestracji
+    setError('');
     registerUser();
   };
 
   return (
     <div>
-      <Navigation /> 
-      <h2>Rejestracja</h2>
+      <Navigation />
+      <h2>Register</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <label>Imię i nazwisko:
+        <label>
+          User name:
           <input
             type="text"
             name="name"
@@ -62,7 +67,8 @@ const Register = () => {
           />
         </label>
         <br />
-        <label>Email:
+        <label>
+          Email:
           <input
             type="email"
             name="email"
@@ -71,7 +77,8 @@ const Register = () => {
           />
         </label>
         <br />
-        <label>Hasło:
+        <label>
+          Password:
           <input
             type="password"
             name="password"
@@ -80,7 +87,7 @@ const Register = () => {
           />
         </label>
         <br />
-        <button type="submit">Zarejestruj się</button>
+        <button type="submit">Register</button>
       </form>
     </div>
   );

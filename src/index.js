@@ -1,12 +1,11 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';  // Update import
+import { createRoot } from 'react-dom/client'; // Update import
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import store from '../src/redux/store';
 import App from './components/App';
-import Register from './components/Register';
-import Login from './components/Login';
-
+import Register from './components/Register/Register';
+import Login from './components/Login/Login';
 
 import './index.css';
 

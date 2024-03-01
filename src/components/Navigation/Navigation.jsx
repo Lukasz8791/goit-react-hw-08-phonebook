@@ -1,22 +1,23 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import UserMenu from './UserMenu'; // Import UserMenu
+import UserMenu from '../UserMenu/UserMenu';
+import styles from './Navigation.module.css';
 
 const Navigation = () => {
   return (
     <nav>
-      <ul>     
+      <ul>
         <li>
-          <Link to="/register">Rejestracja</Link>
+          <Link to="/register">Registration</Link>
         </li>
         <li>
-          <Link to="/login">Logowanie</Link>
+          <Link to="/login">Log in</Link>
         </li>
         <li>
-          <Link to="/contacts">Kontakty</Link>
+          <Link to="/contacts">Contacts</Link>
         </li>
         <li>
-          <UserMenu /> {/* Dodaj UserMenu tutaj */}
+          <UserMenu />
         </li>
       </ul>
     </nav>

@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactsActions } from '../redux/contactsSlice';
-import Navigation from './Navigation';  // Dodany import modułu Navigation
+import Navigation from './Navigation/Navigation';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -44,7 +44,7 @@ const App = () => {
 
   return (
     <div>
-      <Navigation /> 
+      <Navigation />
       <h1>Phonebook</h1>
       <ContactForm addContact={handleAddContact} />
       <h2>Contacts</h2>

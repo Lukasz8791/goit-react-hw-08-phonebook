@@ -14,7 +14,7 @@ export const fetchContacts = createAsyncThunk(
           },
         }
       );
-      // console.log(response.data);
+
       return response.data;
     } catch (error) {
       throw Error('Failed to fetch contacts');
@@ -50,7 +50,7 @@ export const logoutAsync = createAsyncThunk(
       const token = localStorage.getItem('token');
       const response = await axios.post(
         'https://connections-api.herokuapp.com/users/logout',
-        null, // Nie ma potrzeby wysyłania danych w ciele żądania
+        null,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -58,7 +58,7 @@ export const logoutAsync = createAsyncThunk(
         }
       );
       console.log(response.data);
-      return response.data;     
+      return response.data;
     } catch (error) {
       throw Error(`Failed to connect API and logout > ${error}`);
     }
@@ -100,14 +100,14 @@ const contactsSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
-    clearContacts: (state) => {
+    clearContacts: state => {
       state.items = [];
       state.status = 'idle';
       state.error = null;
-      state.user = null;  // Clear user data
+      state.user = null;
     },
   },
-  extraReducers: (builder) => {
+  extraReducers: builder => {
     builder
       .addCase(fetchContacts.pending, state => {
         state.status = 'loading';
@@ -140,8 +140,7 @@ export const contactsActions = {
   logoutAsync,
   setFilter,
   setUser,
-  clearContacts, // Dodajemy akcję clearContacts
+  clearContacts,
 };
-
 
 export default contactsSlice.reducer;

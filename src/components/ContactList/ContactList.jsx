@@ -1,11 +1,8 @@
-// ContactList.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './ContactList.module.css';
 
 const ContactList = ({ contacts, filter, onDelete }) => {
-  // console.log('Aktualna wartość filtra w ContactList:', filter); // Dodaj log
-
   const filteredContacts =
     filter &&
     contacts &&
