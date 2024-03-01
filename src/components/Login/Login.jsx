@@ -39,12 +39,9 @@ const Login = () => {
         localStorage.setItem('token', data.token);
         navigate('/contacts');
       } else {
-        console.log(response);
-        const errorMessage = await response.text();
-        setError(`Error: ${errorMessage}`);
+        setError(`Wrong Login or password`);
       }
     } catch (error) {
-      console.log(`err ${error}`);
       setError(`Error: ${error.message}`);
     }
   };
@@ -59,7 +56,7 @@ const Login = () => {
     <div className={styles.container}>
       <Navigation />
       <h2>Log in</h2>
-      {error && <p className={styles.errorMessage}>{error}</p>}
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Email:

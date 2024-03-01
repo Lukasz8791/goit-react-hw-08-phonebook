@@ -78,7 +78,7 @@ const ContactForm = () => {
   return (
     <div>
       {generalError && (
-        <p className={styles['error-message']}>{generalError}</p>
+        <p className='error-message'>{generalError}</p>
       )}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
