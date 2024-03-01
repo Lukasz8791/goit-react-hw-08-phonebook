@@ -54,8 +54,8 @@ const Register = () => {
   return (
     <div>
       <Navigation />
-      <h2>Register</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <h2 className={styles.title}>Register</h2>
+      {error && <p className={styles.error}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           User name:
@@ -64,6 +64,7 @@ const Register = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            className={styles.input}
           />
         </label>
         <br />
@@ -74,6 +75,7 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            className={styles.input}
           />
         </label>
         <br />
@@ -84,10 +86,13 @@ const Register = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            className={styles.input}
           />
         </label>
         <br />
-        <button type="submit">Register</button>
+        <button type="submit" className={styles.button}>
+          Register
+        </button>
       </form>
     </div>
   );

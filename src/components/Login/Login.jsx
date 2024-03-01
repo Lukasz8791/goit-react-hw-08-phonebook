@@ -54,10 +54,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <Navigation />
       <h2>Log in</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p className={styles.errorMessage}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <label>
           Email:
@@ -66,6 +66,7 @@ const Login = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            className={styles.input}
           />
         </label>
         <br />
@@ -76,10 +77,13 @@ const Login = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
+            className={styles.input}
           />
         </label>
         <br />
-        <button type="submit">Log in</button>
+        <button type="submit" className={styles.button}>
+          Log in
+        </button>
       </form>
     </div>
   );

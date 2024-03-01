@@ -5,22 +5,28 @@ import styles from './Navigation.module.css';
 
 const Navigation = () => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/register">Registration</Link>
+    <div className={styles.nav}>
+      <ul className={styles.ul}>
+        <li className={styles.li}>
+          <Link className={styles.a} to="/register">
+            Registration
+          </Link>
         </li>
-        <li>
-          <Link to="/login">Log in</Link>
+        <li className={styles.li}>
+          <Link className={styles.a} to="/login">
+            Log in
+          </Link>
         </li>
-        <li>
-          <Link to="/contacts">Contacts</Link>
+        <li className={styles.li}>
+          <Link className={styles.a} to="/contacts">
+            Contacts
+          </Link>
         </li>
-        <li>
+        <li className={styles.li}>
           <UserMenu />
         </li>
       </ul>
-    </nav>
+    </div>
   );
 };
 

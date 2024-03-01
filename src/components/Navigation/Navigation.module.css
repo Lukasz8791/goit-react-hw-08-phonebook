@@ -1,9 +1,9 @@
-nav {
+.nav {
   background: linear-gradient(135deg, #ffd700, goldenrod);
   padding: 10px 0;
 }
 
-ul {
+.ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -14,17 +14,20 @@ ul {
   font-weight: 600;
 }
 
-li {
-  margin: 0 10px;
+.li {
+  margin: 0 60px;
 }
 
-a {
+.a {
   color: #fff;
   text-decoration: none;
   transition: color 0.3s ease;
+  font-size: 26px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
-a:hover {
+.a:hover {
   color: slategrey;
   text-decoration: none;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client'; // Update import
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import store from '../src/redux/store';
@@ -20,7 +20,7 @@ root.render(
           <Route path="/login" element={<Login />} />
           <Route path="/contacts" element={<App />} />
           <Route path="/" element={<Login />} />
-          <Route path="/goit-react-hw-07-phonebook" element={<Login />} />
+          <Route path="/goit-react-hw-08-phonebook" element={<Login />} />
         </Routes>
       </React.StrictMode>
     </Router>

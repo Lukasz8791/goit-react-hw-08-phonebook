@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { contactsActions } from '../../redux/contactsSlice';
-import { nanoid } from 'nanoid';
 import styles from './ContactForm.module.css';
-import Navigation from '../Navigation/Navigation';
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -57,8 +55,6 @@ const ContactForm = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
-
       const data = JSON.stringify({
         name: name,
         number: number,

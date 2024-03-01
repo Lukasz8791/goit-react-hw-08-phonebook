@@ -3,7 +3,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .li {
@@ -35,6 +35,7 @@
 .delete-button:hover {
   background: linear-gradient(to right, #e50b21, #1f080b);
 }
+
 .contact-info span {
   text-align: center;
 }

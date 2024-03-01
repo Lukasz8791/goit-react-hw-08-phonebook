@@ -44,11 +44,13 @@ const UserMenu = () => {
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       {user && (
         <>
-          {user.email && <p>{user.email}</p>}
-          <button onClick={handleLogout}>Logout</button>
+          {user.email && <p className={styles.email}>{user.email}</p>}
+          <button className={styles['logout-button']} onClick={handleLogout}>
+            Logout
+          </button>
         </>
       )}
     </div>
