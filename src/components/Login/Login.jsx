@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
 import styles from './Login.module.css';
@@ -10,7 +11,7 @@ const Login = () => {
   });
 
   const [error, setError] = useState('');
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = e => {
@@ -37,6 +38,8 @@ const Login = () => {
         const data = await response.json();
 
         localStorage.setItem('token', data.token);
+        // Zamiast korzystać z authSlice, możemy bezpośrednio wywołać akcję logowania
+        dispatch({ type: 'LOGIN_SUCCESS', payload: data.token });
         navigate('/contacts');
       } else {
         setError(`Wrong Login or password`);

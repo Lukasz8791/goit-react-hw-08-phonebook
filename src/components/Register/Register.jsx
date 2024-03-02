@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import styles from './Register.module.css';
 import { useNavigate } from 'react-router-dom';
 import Navigation from '../Navigation/Navigation';
+import styles from './Register.module.css';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,6 @@ const Register = () => {
   });
 
   const [error, setError] = useState('');
-
   const navigate = useNavigate();
 
   const handleChange = e => {
@@ -37,11 +36,11 @@ const Register = () => {
       if (response.ok) {
         navigate('/login');
       } else {
-        var errorMessage = await response.json();
-        setError(`Registers error: ${errorMessage.message}`);
+        const errorMessage = await response.json();
+        setError(`Register error: ${errorMessage.message}`);
       }
     } catch (error) {
-      setError(`Registers error: ${error}`);
+      setError(`Register error: ${error}`);
     }
   };
 

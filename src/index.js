@@ -13,7 +13,7 @@ const root = createRoot(document.getElementById('root'));
 
 root.render(
   <Provider store={store}>
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <React.StrictMode>
         <Routes>
           <Route path="/register" element={<Register />} />

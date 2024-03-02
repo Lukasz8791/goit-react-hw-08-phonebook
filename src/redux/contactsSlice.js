@@ -15,7 +15,6 @@ export const fetchContacts = createAsyncThunk(
             },
           }
         );
-
         return response.data;
       } else return null;
     } catch (error) {
@@ -45,6 +44,7 @@ export const addContactAsync = createAsyncThunk(
     }
   }
 );
+
 export const logoutAsync = createAsyncThunk(
   'users/logoutAsync',
   async (_, thunkAPI) => {
@@ -66,12 +66,12 @@ export const logoutAsync = createAsyncThunk(
     }
   }
 );
+
 export const deleteContactAsync = createAsyncThunk(
   'contacts/deleteContactAsync',
   async id => {
     try {
       const token = localStorage.getItem('token');
-
       await axios.delete(
         `https://connections-api.herokuapp.com/contacts/${id}`,
         {
