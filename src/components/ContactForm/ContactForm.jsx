@@ -70,16 +70,14 @@ const ContactForm = () => {
       });
     } catch (error) {
       setGeneralError(
-        'Error during adding contacts, Please check if you are log in or try again later.'
+        'Error while adding contacts. Please check if you are logged in or try again later.'
       );
     }
   };
 
   return (
     <div>
-      {generalError && (
-        <p className='error-message'>{generalError}</p>
-      )}
+      {generalError && <p className="error-message">{generalError}</p>}
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
           <span>Name: </span>
